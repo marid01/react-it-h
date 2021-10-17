@@ -1,11 +1,15 @@
-import React from 'react'
+import React, {Dispatch, SetStateAction} from 'react'
 import Affair from './Affair'
-import {AffairType} from './HW2'
+import {AffairType, FilterType} from './HW2'
+import s from './Affairs.module.css'
 
-type AffairsPropsType = { // need to fix any
-    data: any
-    setFilter: any
-    deleteAffairCallback: any
+type AffairsPropsType = {
+// @ts-ignore
+    data: AffairType[]
+    setFilter: Dispatch<SetStateAction<FilterType>>
+    // @ts-ignore
+    deleteAffairCallback: (id: number) => void
+    filter: FilterType
 }
 
 function Affairs(props: AffairsPropsType) {
@@ -17,20 +21,44 @@ function Affairs(props: AffairsPropsType) {
         />
     ))
 
-    const setAll = () => {} // need to fix
-    const setHigh = () => {}
-    const setMiddle = () => {}
-    const setLow = () => {}
+    const setAll = () => {
+        props.setFilter('all')
+    }
+    const setHigh = () => {
+        props.setFilter('high')
+    }
+    const setMiddle = () => {
+        props.setFilter('middle')
+    }
+    const setLow = () => {
+        props.setFilter('low')
+    }
+    // const set = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     props.setFilter(e.currentTarget.value as FilterType)
+    // }
+
+    const cnAll = s.button + ' ' + (props.filter === 'all' ? s.active : '')
+    const cnHigh = s.button + ' ' + (props.filter === 'high' ? s.active : '')
+    const cnMiddle = s.button + ' ' + (props.filter === 'middle' ? s.active : '')
+    const cnLow = s.button + ' ' + (props.filter === 'low' ? s.active : '')
+    // const setClass = (filter: FilterType) => {
+    //     return s.button + (props.filter === filter ? ' ' + s.active : '')
+    // }
 
     return (
         <div>
 
             {mappedAffairs}
 
-            <button onClick={setAll}>All</button>
-            <button onClick={setHigh}>High</button>
-            <button onClick={setMiddle}>Middle</button>
-            <button onClick={setLow}>Low</button>
+            <button onClick={setAll} className={cnAll}>All</button>
+            <button onClick={setHigh} className={cnHigh}>High</button>
+            <button onClick={setMiddle} className={cnMiddle}>Middle</button>
+            <button onClick={setLow} className={cnLow}>Low</button>
+
+            {/*<button onClick={set} className={setClass('all')} value={'all'}>All</button>*/}
+            {/*<button onClick={set} className={setClass('high')} value={'high'}>All</button>*/}
+            {/*<button onClick={set} className={setClass('middle')} value={'middle'}>All</button>*/}
+            {/*<button onClick={set} className={setClass('low')} value={'low'}>All</button>*/}
         </div>
     )
 }
